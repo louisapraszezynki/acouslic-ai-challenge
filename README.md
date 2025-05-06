@@ -1,25 +1,10 @@
 # ACOUSLIC-AI Challenge — Mesure automatique du périmètre abdominal fœtal
 Ce repository contient le code et les notebooks utilisés pour le challenge ACOUSLIC-AI réalisé dans le cadre du projet de traitement d’image. Ce challenge d'imagerie biomédicale vise à développer des modèles d’intelligence artificielle capables de mesurer automatiquement le périmètre abdominal fœtal à partir de séquences échographiques 2D.
 
-## Structure du repository
-`.`    
-`├── transformers_doc/en/pytorch/`  
-`│   ├── classification_training.ipynb`  
-`│   └── segmentation_training.ipynb`   
-`│`  
-`│`  
-`├── code`  
-`│   ├── create_dataset.py`  
-`│   ├── create_dataset_for_classification.py`   
-`│   ├── create_dataset_for_segmentation.py`  
-`│   ├── main.py`  
-`│   ├── mask.py`  
-`│   ├── test_our_trained_model_classification.py`   
-`│   └── test_our_trained_model_segmentation.py`  
-
-## Description des dossiers et des fichiers
+## Description des dossiers et des fichiers du repository
 `transformers_doc/en/pytorch/`  
 Contient les notebooks fournis par Hugging Face utilisés comme base pour entraîner les modèles de classification (ViT) et de segmentation (SegFormer).
+
 
 `code/`  
 Scripts développés pour le projet :
