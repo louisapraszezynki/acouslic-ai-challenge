@@ -13,6 +13,7 @@ Scripts python développés pour le projet :
 * `create_dataset_for_segmentation.py` : préparation des données et création du dataset de segmentation
 * `test_our_trained_model_classification.py` : tests et inférence pour le modèle de classification
 * `test_our_trained_model_segmentation.py` : tests et inférence pour le modèle de segmentation
+* `validation.py` : inférence sur le set de validation avec nos 2 modèles
 
 ## Librairies principales utilisées
 * `scikit-learn` (ConfusionMatrixDisplay)
