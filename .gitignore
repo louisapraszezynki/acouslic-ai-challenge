@@ -1,0 +1,4 @@
+.env
+**/*.mha
+.idea
+.DS_Store
