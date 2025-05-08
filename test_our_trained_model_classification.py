@@ -7,19 +7,13 @@ from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import numpy as np
 
-# entire_dataset = load_dataset("Louloubib/acouslic_ai")
-# split_datasets = {
-#     0: entire_dataset["train"].filter(lambda e: e['label'] == 0),
-#     1: entire_dataset["train"].filter(lambda e: e['label'] == 1),
-#     2: entire_dataset["train"].filter(lambda e: e['label'] == 2),
-# }
 
+entire_dataset = load_dataset("Louloubib/acouslic_ai_validation")
 split_datasets = {
-    0: load_dataset("Louloubib/acouslic_ai_filtered_label_0"),
-    1: load_dataset("Louloubib/acouslic_ai_filtered_label_1"),
-    2: load_dataset("Louloubib/acouslic_ai_filtered_label_2")
+    0: entire_dataset["train"].filter(lambda e: e['label'] == 0),
+    1: entire_dataset["train"].filter(lambda e: e['label'] == 1),
+    2: entire_dataset["train"].filter(lambda e: e['label'] == 2),
 }
-
 
 print("Datasets loaded")
 
@@ -36,10 +30,11 @@ for dataset in [0, 1, 2]:
         'no_annotation': 0,
     }
 
+
     for out in tqdm(
-        pipe(KeyDataset(split_datasets[dataset]['train'], "image"), batch_size=64),
+        pipe(KeyDataset(split_datasets[dataset], "image"), batch_size=64),
         desc=f"Iterating through dataset {dataset}",
-        total=len(split_datasets[dataset]['train'])
+        total=len(split_datasets[dataset])
     ):
         best_result = max(out, key=lambda e: e['score'])
         best_label = best_result['label']

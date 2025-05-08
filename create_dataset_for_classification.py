@@ -6,7 +6,7 @@ from datasets import Dataset
 from tqdm import tqdm
 import os
 
-filenames = os.listdir('acouslic-ai-train-set/images/stacked_fetal_ultrasound')
+filenames = os.listdir('acouslic-ai-train-set/images/stacked_fetal_ultrasound')[:270]
 all_examples = {
     0: [],
     1: [],
@@ -49,6 +49,8 @@ for filename in tqdm(filenames):
     examples = [add_label_to_example(example) for example in examples]
 
     for example in examples:
+        # Vu qu'il y a beaucoup d'images au label 0 nous choisissons de n'en prendre qu'une sur 10
+        # aleatoirement de maniere a accelerer la boucle
         if example['label'] == 0:
             if random.randint(1, 10) == 10:
                 all_examples[example['label']].append(example)

@@ -1,6 +1,59 @@
-from datasets import load_dataset
+import random
+from PIL import Image
+import SimpleITK as sitk
+import numpy as np
+from datasets import Dataset
+from tqdm import tqdm
+import os
 
-entire_dataset = load_dataset("Louloubib/acouslic_ai")
-new_dataset = entire_dataset["train"].filter(lambda e: e['label'] in [1, 2])
+filenames = os.listdir('acouslic-ai-train-set/images/stacked_fetal_ultrasound')[:270]
+all_examples = {
+    1: [],
+    2: [],
+}
 
-new_dataset.push_to_hub('acouslic_ai_filtered_for_segmentation', token='***')
+for filename in tqdm(filenames):
+    images = sitk.ReadImage(f"acouslic-ai-train-set/images/stacked_fetal_ultrasound/{filename}")
+    masks = sitk.ReadImage(f"acouslic-ai-train-set/masks/stacked_fetal_abdomen/{filename}")
+
+    images_array = sitk.GetArrayFromImage(images)
+    masks_array = sitk.GetArrayFromImage(masks)
+
+    label_dict = {
+        0: 'no_annotation',
+        1: 'optimal',
+        2: 'suboptimal'
+    }
+
+    def add_label_to_example(example: tuple[np.ndarray, np.ndarray]):
+        image, mask = example
+
+        if mask.sum(-1).sum(-1) == 0:
+            label = 0
+        elif 1 in mask:
+            label = 1
+            mask *= 255
+        elif 2 in mask:
+            label = 2
+            mask[mask == 2] = 255
+        else:
+            raise ValueError("On n'a pas ce qu'on cherche")
+
+        return {'label': label, 'image': Image.fromarray(image), 'annotation': Image.fromarray(mask)}
+
+    # Examples qui correspondent à tuple(image, masque)
+    examples = list(zip(images_array, masks_array))
+
+    # Examples qui correspondent à {'label': 0, 1, ou 2, 'image': Image, 'annotation': Mask}
+    examples = [add_label_to_example(example) for example in examples]
+
+    for example in examples:
+        # Vu qu'il y a beaucoup d'images au label 0 nous choisissons de n'en prendre qu'une sur 10
+        # aleatoirement de maniere a accelerer la boucle
+        if example['label'] != 0:
+            all_examples[example['label']].append(example)
+
+
+# On convertit tout ça en dataset
+dataset = Dataset.from_list(all_examples[1] + all_examples[2])
+dataset.push_to_hub(repo_id='acouslic_ai_segmentation', token='***')
