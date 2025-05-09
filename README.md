@@ -20,6 +20,10 @@ Scripts python développés pour le projet :
 - Lancement des entraînements sur les notebooks sur https://colab.research.google.com/ (contient également du test/inférence mais sur des données de l'entraînement)  
 - Tests et inférence de chaque modèle indépendemment sur `test_our_trained_model_classification.py` et `test_our_trained_model_segmentation.py`
 - Test et inférence sur la méthode complète sur `validation.py`
+  
+## Exemples de résultats
+![image](https://github.com/user-attachments/assets/da625242-d1cd-4242-ab4c-aaff30edd9dd)
+Exemples de sélection de 3 frames optimales et leur masque pour la mesure du PA (en vert)
 
 ## Librairies principales utilisées
 * `scikit-learn` (ConfusionMatrixDisplay)
@@ -29,5 +33,5 @@ Scripts python développés pour le projet :
 * `numpy`
 * `datasets` (Hugging Face)
 * `transformers` (Hugging Face)
-  
-## Exemples de résultats
+
+    
